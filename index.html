@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="SpeakUp -MBA Entry-" />
+  <meta name="theme-color" content="#14110f" />
+
+  <title>SpeakUp -MBA Entry-</title>
+
+  <style>
+    :root{
+      /* Warm, high-minded, but friendly */
+      --bg:#14110f;          /* espresso */
+      --bg2:#0f0d0c;         /* deeper */
+      --paper:rgba(26,21,18,.78);
+      --paper2:rgba(20,16,14,.70);
+
+      --ink:#f6f1ea;         /* warm white */
+      --muted:rgba(246,241,234,.74);
+      --muted2:rgba(246,241,234,.56);
+
+      --line:rgba(255,255,255,.14);
+      --line2:rgba(255,255,255,.10);
+
+      --accent:#d8b07a;      /* warm gold */
+      --accent2:#c08c4a;     /* amber */
+      --sage:#9bb89a;        /* calm green */
+      --rose:#c98f8f;        /* subtle rose */
+
+      --shadow:0 16px 50px rgba(0,0,0,.48);
+      --shadow2:0 10px 26px rgba(0,0,0,.34);
+      --radius:18px;
+
+      /* Font */
+      --font: "Times New Roman", Times, serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      overflow-x:hidden;
+    }
+
+    /* Warm paper-like background with subtle texture */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+
+      background-image:
+        /* soft vignette */
+        radial-gradient(circle at 50% 35%, rgba(216,176,122,.10), transparent 55%),
+        radial-gradient(circle at 15% 20%, rgba(155,184,154,.10), transparent 50%),
+        radial-gradient(circle at 85% 25%, rgba(201,143,143,.08), transparent 55%),
+
+        /* warm grain dots */
+        radial-gradient(circle at 18% 28%, rgba(246,241,234,.08) 0 1px, transparent 2px),
+        radial-gradient(circle at 26% 36%, rgba(246,241,234,.06) 0 1px, transparent 2px),
+        radial-gradient(circle at 74% 26%, rgba(246,241,234,.07) 0 1px, transparent 2px),
+        radial-gradient(circle at 82% 34%, rgba(246,241,234,.05) 0 1px, transparent 2px),
+        radial-gradient(circle at 64% 78%, rgba(246,241,234,.05) 0 1px, transparent 2px);
+
+      background-repeat:no-repeat;
+      background-size:cover;
+      opacity:.95;
+      filter:saturate(1.05);
+    }
+
+    /* subtle darkening for readability */
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      background: rgba(0,0,0,.22);
+      box-shadow: inset 0 0 170px rgba(0,0,0,.55);
+    }
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      max-width:1100px;
+      margin:0 auto;
+      padding:22px 16px 92px;
+    }
+
+    .title{
+      text-align:center;
+      margin:10px 0 10px;
+      font-weight:800;
+      letter-spacing:.4px;
+      font-size:34px;
+      text-shadow: 0 12px 28px rgba(0,0,0,.42);
+    }
+
+    .subtitle{
+      text-align:center;
+      margin:0 0 16px;
+      color:var(--muted);
+      font-size:14px;
+      letter-spacing:.2px;
+      line-height:1.35;
+    }
+
+    .topRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin:10px 0 12px;
+    }
+
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      border:1px solid var(--line);
+      background:rgba(20,16,14,.55);
+      padding:10px 12px;
+      border-radius:999px;
+      color:var(--muted);
+      font-size:13px;
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(10px);
+    }
+    .pill strong{ color:var(--ink); font-weight:800; }
+
+    .pill select{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      color:var(--ink);
+      border-radius:999px;
+      padding:8px 10px;
+      outline:none;
+      font-weight:800;
+      appearance:none;
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      font-family: var(--font);
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(26,21,18,.78), rgba(20,16,14,.68));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:14px;
+      box-shadow: var(--shadow);
+      margin:12px 0;
+      position:relative;
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-70px -40px auto -40px;
+      height:190px;
+      pointer-events:none;
+      background: radial-gradient(circle at 35% 55%, rgba(216,176,122,.14), transparent 62%);
+      opacity:.95;
+    }
+
+    .card h2{
+      position:relative;
+      margin:0 0 10px;
+      font-size:17px;
+      letter-spacing:.15px;
+      font-weight:800;
+    }
+
+    .small{
+      position:relative;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.55;
+    }
+
+    /* Primary button: warm and confident */
+    .btn{
+      width:100%;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(90deg, rgba(216,176,122,.34), rgba(155,184,154,.22));
+      color:#fff;
+      font-weight:800;
+      font-size:17px;
+      cursor:pointer;
+      box-shadow: 0 18px 40px rgba(0,0,0,.38);
+      position:relative;
+      overflow:hidden;
+      transform: translateZ(0);
+      text-shadow: 0 10px 22px rgba(0,0,0,.38);
+      font-family: var(--font);
+    }
+    .btn::after{
+      content:"";
+      position:absolute;
+      top:-60%;
+      left:-30%;
+      width:40%;
+      height:220%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.62), transparent);
+      transform: rotate(18deg);
+      opacity:0;
+      transition: opacity .25s ease;
+      animation: none;
+      pointer-events:none;
+    }
+    .btn:hover::after{
+      opacity:.9;
+      animation: sweep 1.1s ease-in-out infinite;
+    }
+    @keyframes sweep{
+      0%{ left:-40%; }
+      100%{ left:120%; }
+    }
+    .btn:active{ transform:translateY(1px); }
+
+    .btnSec{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--ink);
+      cursor:pointer;
+      white-space:nowrap;
+      box-shadow: var(--shadow2);
+      font-family: var(--font);
+      font-weight:700;
+    }
+    .btnSec:hover{ background:rgba(255,255,255,.10); }
+
+    .kwItem{
+      border:1px solid var(--line2);
+      background:rgba(255,255,255,.05);
+      border-radius:14px;
+      padding:12px;
+      margin:10px 0;
+      box-shadow: var(--shadow2);
+      position:relative;
+      overflow:hidden;
+    }
+    .kwItem::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.55;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(216,176,122,.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 78% 30%, rgba(155,184,154,.16) 0 2px, transparent 3px),
+        radial-gradient(circle at 60% 86%, rgba(201,143,143,.12) 0 2px, transparent 3px);
+    }
+
+    .kwTop{
+      position:relative;
+      display:flex;
+      gap:10px;
+      align-items:baseline;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .kwTop .kw{
+      font-weight:800;
+      font-size:15px;
+      letter-spacing:.1px;
+    }
+    .kwTop .ja{
+      color:var(--muted2);
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .uses{
+      position:relative;
+      margin-top:8px;
+      font-size:13px;
+      color:rgba(246,241,234,.86);
+      line-height:1.55;
+      white-space:pre-line;
+    }
+
+    textarea{
+      width:100%;
+      min-height:220px;
+      resize:vertical;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.20);
+      color:var(--ink);
+      font-family: var(--mono);
+      font-size:12px;
+      line-height:1.45;
+      outline:none;
+      box-shadow: var(--shadow2);
+    }
+
+    .tabs{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      padding:10px 10px calc(10px + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg, rgba(20,16,14,.0), rgba(20,16,14,.92) 35%, rgba(20,16,14,.98));
+      backdrop-filter: blur(10px);
+      z-index:2;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .tabRow{
+      max-width:1100px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:10px;
+    }
+    .tabBtn{
+      padding:12px 10px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:rgba(246,241,234,.92);
+      font-weight:800;
+      cursor:pointer;
+      font-family: var(--font);
+    }
+    .tabBtn.active{
+      background:rgba(255,255,255,.08);
+      color:#fff;
+    }
+    .view{ display:none; }
+    .view.active{ display:block; }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:86px;
+      transform:translateX(-50%);
+      background:rgba(0,0,0,.75);
+      border:1px solid rgba(255,255,255,.12);
+      color:#fff;
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:12px;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .18s ease;
+      z-index:3;
+      font-family: var(--font);
+    }
+    .toast.show{ opacity:1; }
+
+    /* Small helper: nicer quotes/typography */
+    .title, h2{
+      font-variant-ligatures: common-ligatures;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="title">SpeakUp -MBA Entry-</div>
+    <div class="subtitle">Pre-MBA speaking warm-up · 10 minutes a day · From vocabulary to confident participation</div>
+
+    <div class="topRow">
+      <div class="pill">
+        状態：<strong id="statusText">未利用</strong>
+      </div>
+      <div class="pill">
+        今日のDay：<strong id="topicLabel">Day 1</strong>
+      </div>
+      <div class="pill">
+        日付：<strong id="dateLabel">-</strong>
+      </div>
+      <div class="pill">
+        Day変更：
+        <select id="topicSelect" aria-label="Day selector"></select>
+      </div>
+    </div>
+
+    <!-- Today -->
+    <div id="viewToday" class="view active">
+      <div class="card">
+        <h2>Prompt（このままChatGPTに渡す）</h2>
+        <div class="small">ボタン1つであなたのChatGPTへ移動し、プロンプトが自動で入ります。送信後、英会話（or typing）スタート。</div>
+        <div id="promptArea" class="small" style="margin-top:10px; white-space:pre-line;"></div>
+      </div>
+
+      <div class="card">
+        <h2>Seeds（今日のテーマの候補語）</h2>
+        <div class="small">タップでNotesに追記（後で復習用）。※ChatGPTはこのSeedを参考に3〜5語を作成</div>
+        <div id="kwList"></div>
+      </div>
+
+      <div class="card">
+        <h2>Let’s speak up!</h2>
+        <div class="small">押すと：今日の「語彙生成＋スピーキング練習」プロンプトをChatGPTに渡す（履歴も保存）</div>
+        <button class="btn" id="speakBtn">Let’s speak up!</button>
+      </div>
+
+      <div class="card">
+        <h2>Notes保存用（いつでも復習）</h2>
+        <div class="small">下は自由。生成結果を貼り付けて整理してOK。</div>
+        <textarea id="notesArea" placeholder="[今日の学び]&#10;- term = 意味（JP）&#10;  context: ...&#10;  examples: ...&#10;  cold-call: ...&#10;&#10;[Chat Memo]&#10;-"></textarea>
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btnSec" id="copyNotesBtn">コピー</button>
+          <button class="btnSec" id="clearNotesBtn">クリア</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div id="viewHistory" class="view">
+      <div class="card">
+        <h2>History</h2>
+        <div class="small">直近20件（端末内保存 / localStorage）</div>
+        <div id="historyArea" class="small" style="margin-top:10px; white-space:pre-line;"></div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="viewSettings" class="view">
+      <div class="card">
+        <h2>Settings</h2>
+        <div class="small">最低限。必要なら後で拡張。</div>
+
+        <h2 style="margin-top:14px;">データ</h2>
+        <button class="btnSec" id="resetAllBtn">全データ初期化（注意）</button>
+        <div class="small" style="margin-top:8px;">
+          ※Notes・履歴・利用状態を削除します
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tabRow">
+      <button class="tabBtn active" id="tab1">Today</button>
+      <button class="tabBtn" id="tab2">History</button>
+      <button class="tabBtn" id="tab3">Settings</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+/* =========================
+   SpeakUp：MBA Entry Vocabulary Generator（30 Days）
+   - 1 prompt => 3-5 terms
+   - each term => meaning + 3 examples + context + professor/classmate question
+   ========================= */
+
+const DAYS = [
+  { title:"MBA Core: Framing & Thinking", focus:"MBAで頻出の“考え方の枠組み”を英語で言えるようにする", seeds:["first principles", "trade-off", "assumption", "constraint", "prioritize"] },
+  { title:"Accounting: Financial Statements", focus:"PL/BS/CFの基本語彙と説明の型", seeds:["income statement", "balance sheet", "cash flow", "accrual", "materiality"] },
+  { title:"Accounting: Revenue Recognition", focus:"売上認識・タイミング・契約条件の説明", seeds:["revenue recognition", "performance obligation", "deferred revenue", "cut-off", "audit trail"] },
+  { title:"Finance: Time Value & Valuation", focus:"割引・NPV・企業価値の説明", seeds:["time value of money", "discount rate", "NPV", "DCF", "terminal value"] },
+  { title:"Finance: Risk & Return", focus:"リスクと期待リターンを語る", seeds:["risk premium", "volatility", "beta", "diversification", "opportunity cost"] },
+  { title:"Corporate Finance: Capital Structure", focus:"負債/株式/レバレッジの議論", seeds:["leverage", "WACC", "debt covenant", "equity dilution", "interest coverage"] },
+  { title:"Marketing: Segmentation & Targeting", focus:"誰に・何を・なぜを言語化", seeds:["segmentation", "targeting", "positioning", "persona", "value proposition"] },
+  { title:"Marketing: Pricing & Willingness to Pay", focus:"価格設定と価値のつなぎ方", seeds:["willingness to pay", "price elasticity", "premium pricing", "bundling", "discounting"] },
+  { title:"Marketing: Growth & Funnel", focus:"獲得→転換→継続の説明", seeds:["funnel", "conversion rate", "CAC", "LTV", "retention"] },
+  { title:"Strategy: Competitive Advantage", focus:"優位性・参入障壁・持続性を語る", seeds:["moat", "barriers to entry", "switching cost", "differentiation", "cost leadership"] },
+
+  { title:"Strategy: Industry Analysis", focus:"業界構造（5 forces）で説明", seeds:["industry structure", "rivalry", "supplier power", "threat of substitutes", "new entrants"] },
+  { title:"Strategy: Corporate vs Business Strategy", focus:"全社と事業の違いを整理", seeds:["portfolio", "synergy", "core competence", "scope", "strategic fit"] },
+  { title:"Operations: Process & Bottlenecks", focus:"プロセス改善を英語で語る", seeds:["process mapping", "bottleneck", "throughput", "cycle time", "queue"] },
+  { title:"Operations: Quality & Continuous Improvement", focus:"品質・改善・標準化", seeds:["root cause", "Kaizen", "SOP", "defect", "variance"] },
+  { title:"Supply Chain: Inventory & Service Level", focus:"在庫・欠品・リードタイム", seeds:["lead time", "safety stock", "stockout", "service level", "bullwhip effect"] },
+  { title:"Economics: Demand & Supply", focus:"需給・均衡・外部性", seeds:["marginal", "equilibrium", "substitution", "externality", "incentive"] },
+  { title:"Economics: Market Power", focus:"独占・寡占・価格決定", seeds:["market power", "markup", "competition policy", "barrier", "game theory"] },
+  { title:"Data/Analytics: Metrics & KPIs", focus:"KPIの定義・整合・意思決定への接続", seeds:["KPI", "leading indicator", "lagging indicator", "dashboard", "data integrity"] },
+  { title:"Analytics: Experiments & Causality", focus:"A/Bテスト・因果・バイアス", seeds:["A/B test", "counterfactual", "selection bias", "statistical significance", "confidence interval"] },
+  { title:"Product Management: Discovery", focus:"顧客課題の発見と仮説検証", seeds:["user research", "JTBD", "hypothesis", "MVP", "iteration"] },
+
+  { title:"Product Management: Roadmap & Trade-offs", focus:"優先順位・ロードマップ・合意形成", seeds:["roadmap", "trade-off", "stakeholder", "alignment", "scope creep"] },
+  { title:"Leadership: Communication & Clarity", focus:"短く、明確に、合意を取る", seeds:["concise", "context", "alignment", "decision owner", "next steps"] },
+  { title:"Negotiation: BATNA & Value", focus:"交渉の型を英語で使う", seeds:["BATNA", "anchor", "concession", "mutual gain", "terms"] },
+  { title:"Organizational Behavior: Motivation", focus:"動機づけ・評価・文化", seeds:["incentive", "psychological safety", "feedback", "accountability", "culture"] },
+  { title:"Change Management", focus:"変革の抵抗・浸透・定着", seeds:["change management", "resistance", "rollout", "training", "adoption"] },
+  { title:"Entrepreneurship: Business Model", focus:"収益構造・ユニットエコノミクス", seeds:["business model", "unit economics", "margin", "scalability", "churn"] },
+  { title:"Entrepreneurship: Pitch & Story", focus:"投資家/上司に刺さる説明", seeds:["pitch", "traction", "market size", "competitive landscape", "milestone"] },
+  { title:"Ethics & Governance", focus:"コンプライアンス・統治・説明責任", seeds:["governance", "compliance", "conflict of interest", "transparency", "accountability"] },
+  { title:"Case Interview: Structuring Answers", focus:"ケース面接の型（構造化→仮説→検証）", seeds:["issue tree", "hypothesis-driven", "MECE", "sizing", "recommendation"] },
+  { title:"Executive Summary: From Insight to Action", focus:"結論→根拠→打ち手→期限を一息で言う", seeds:["executive summary", "key insight", "action plan", "impact", "timeline"] }
+];
+
+/* =========================
+   Utils
+   ========================= */
+function pad2(n){ return String(n).padStart(2,'0'); }
+function todayKey(){
+  const d = new Date();
+  return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());
+}
+function escapeHtml(s){
+  return String(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"), 1400);
+}
+
+/* =========================
+   Day selection: auto by date + manual override
+   ========================= */
+function dayIndexForDate(dateObj){
+  const y = dateObj.getFullYear();
+  const m = dateObj.getMonth()+1;
+  const d = dateObj.getDate();
+  const seed = Number(String(y) + pad2(m) + pad2(d));
+  return seed % DAYS.length;
+}
+function autoDayIndex(){ return dayIndexForDate(new Date()); }
+function manualDayKey(){ return "speakup_manualDay_" + todayKey(); }
+function getManualDayIndex(){
+  const v = localStorage.getItem(manualDayKey());
+  if (v === null || v === undefined) return null;
+  const n = Number(v);
+  if (!Number.isFinite(n)) return null;
+  if (n < 0 || n >= DAYS.length) return null;
+  return n;
+}
+function setManualDayIndex(idx){ localStorage.setItem(manualDayKey(), String(idx)); }
+function currentDayIndex(){
+  const m = getManualDayIndex();
+  return (m === null) ? autoDayIndex() : m;
+}
+
+/* Role: odd day => Professor, even day => Classmate */
+function roleForDay(dayNo){ return (dayNo % 2 === 1) ? "Professor" : "Classmate"; }
+
+/* Used flag */
+function isUsedToday(){
+  const key = "speakup_used_" + todayKey();
+  return localStorage.getItem(key) === "1";
+}
+function markUsedToday(){
+  const key = "speakup_used_" + todayKey();
+  localStorage.setItem(key, "1");
+}
+
+/* Init selector */
+function initDaySelect(){
+  const sel = document.getElementById("topicSelect");
+  sel.innerHTML = "";
+  DAYS.forEach((_, i) => {
+    const opt = document.createElement("option");
+    opt.value = String(i);
+    opt.textContent = `Day ${i+1}`;
+    sel.appendChild(opt);
+  });
+  sel.addEventListener("change", () => {
+    const idx = Number(sel.value);
+    if (Number.isFinite(idx) && idx >= 0 && idx < DAYS.length){
+      setManualDayIndex(idx);
+      renderToday();
+      toast("Dayを変更しました");
+    }
+  });
+}
+
+/* Prompt Builder */
+function buildGeneratorPrompt(day){
+  const idx = currentDayIndex();
+  const dayNo = idx + 1;
+  const role = roleForDay(dayNo);
+
+  const lines = [];
+  lines.push("You are my English speaking coach for MBA-level business communication.");
+  lines.push("Goal: Build practical MBA vocabulary and immediately practice speaking (or typing).");
+  lines.push("");
+  lines.push(`Today's Day: Day ${dayNo}`);
+  lines.push(`Today's focus: ${day.title}`);
+  lines.push(`Focus detail (JP): ${day.focus}`);
+  lines.push("");
+  lines.push("TASK 1) Vocab Overview & Memorize Phase");
+  lines.push("Create 3 to 5 MBA / business vocabulary items (terms or short phrases) relevant to today's focus.");
+  lines.push("For EACH item, output in this exact structure:");
+  lines.push("1) Term:");
+  lines.push("2) Meaning (JP):");
+  lines.push("3) Simple definition (EN): (1-2 lines, simple)");
+  lines.push("4) When/Context (EN): (where this is used in MBA / business settings, 2-3 lines)");
+  lines.push("5) Example sentences (EN): exactly 3 short sentences");
+  lines.push(`6) ${role} question (EN): exactly 1 question a ${role} would ask using this term`);
+  lines.push("");
+  lines.push("TASK 2) Use Phase (Speaking or Typing)");
+  lines.push("After you finish TASK 1, start practice using the terms.");
+  lines.push("Rules for practice:");
+  lines.push("- Ask ONE question at a time.");
+  lines.push("- After my answer, do: (a) brief correction, (b) more natural alternative, (c) confirm if my usage is correct, (d) if wrong, show a correct example answer.");
+  lines.push("- I may answer by speaking OR typing. Both are OK.");
+  lines.push("");
+  lines.push("Practice questions:");
+  lines.push("1) Ask me to explain a business situation using 1-2 of today’s terms (in 2-3 sentences).");
+  lines.push("2) Ask a follow-up that tests correct usage in a realistic MBA case discussion.");
+  lines.push(`3) Ask the ${role.toLowerCase()} question you created (choose one).`);
+  lines.push("");
+  lines.push("Seed terms (use as hints; you can replace/add better ones): " + day.seeds.join(", "));
+  lines.push("");
+  lines.push("Start with TASK 1 now.");
+  return lines.join("\n");
+}
+
+/* Render */
+function renderToday(){
+  const idx = currentDayIndex();
+  const dayNo = idx + 1;
+  const day = DAYS[idx];
+
+  document.getElementById("dateLabel").textContent = todayKey();
+  document.getElementById("statusText").textContent = isUsedToday() ? "利用" : "未利用";
+  document.getElementById("topicLabel").textContent = "Day " + dayNo;
+
+  const sel = document.getElementById("topicSelect");
+  if (sel && sel.value !== String(idx)) sel.value = String(idx);
+
+  const prompt = buildGeneratorPrompt(day);
+  document.getElementById("promptArea").textContent = prompt;
+
+  const kwList = document.getElementById("kwList");
+  kwList.innerHTML = "";
+  day.seeds.forEach(s => {
+    const wrap = document.createElement("div");
+    wrap.className = "kwItem";
+    wrap.innerHTML = `
+      <div class="kwTop">
+        <div class="kw">${escapeHtml(s)} <span class="ja">= seed</span></div>
+        <button class="btnSec" type="button">Notesに追記</button>
+      </div>
+      <div class="uses"><strong>hint:</strong>\nUse this seed to generate terms. You can also ask ChatGPT to include it.</div>
+    `;
+    wrap.querySelector("button").addEventListener("click", () => appendSeedToNotes(s));
+    kwList.appendChild(wrap);
+  });
+}
+
+function appendSeedToNotes(seed){
+  const ta = document.getElementById("notesArea");
+  const block = `- seed: ${seed}\n\n`;
+  ta.value = (ta.value || "") + block;
+  toast("Notesに追記しました");
+}
+
+function buildChatGPTPrompt(){
+  const idx = currentDayIndex();
+  const day = DAYS[idx];
+  return buildGeneratorPrompt(day);
+}
+
+function openChatGPTWithPrompt(prompt){
+  const url = "https://chatgpt.com/?prompt=" + encodeURIComponent(prompt);
+  window.open(url, "_blank");
+}
+
+/* History */
+function saveHistory(){
+  const idx = currentDayIndex();
+  const day = DAYS[idx];
+  const key = "speakup_history";
+  const raw = localStorage.getItem(key);
+  const list = raw ? JSON.parse(raw) : [];
+  list.unshift({
+    date: todayKey(),
+    dayNo: idx+1,
+    title: day.title
+  });
+  if (list.length > 20) list.length = 20;
+  localStorage.setItem(key, JSON.stringify(list));
+}
+function renderHistory(){
+  const raw = localStorage.getItem("speakup_history");
+  const list = raw ? JSON.parse(raw) : [];
+  const area = document.getElementById("historyArea");
+  if (!list.length){
+    area.textContent = "履歴はまだありません。";
+    return;
+  }
+  area.textContent = list.map(x => `- ${x.date} / Day ${x.dayNo} / ${x.title}`).join("\n");
+}
+
+/* Tabs */
+function switchTab(num){
+  document.getElementById("viewToday").classList.toggle("active", num===1);
+  document.getElementById("viewHistory").classList.toggle("active", num===2);
+  document.getElementById("viewSettings").classList.toggle("active", num===3);
+
+  document.getElementById("tab1").classList.toggle("active", num===1);
+  document.getElementById("tab2").classList.toggle("active", num===2);
+  document.getElementById("tab3").classList.toggle("active", num===3);
+
+  if (num===2) renderHistory();
+}
+
+/* Midnight refresh */
+function scheduleMidnightRefresh(){
+  const now = new Date();
+  const next = new Date(now);
+  next.setHours(24,0,1,0);
+  const ms = next.getTime() - now.getTime();
+  setTimeout(() => {
+    renderToday();
+    toast("日付が変わったのでDayを更新しました");
+    scheduleMidnightRefresh();
+  }, ms);
+}
+
+/* Events */
+window.addEventListener("load", () => {
+  initDaySelect();
+  renderToday();
+  scheduleMidnightRefresh();
+
+  document.getElementById("tab1").addEventListener("click", ()=>switchTab(1));
+  document.getElementById("tab2").addEventListener("click", ()=>switchTab(2));
+  document.getElementById("tab3").addEventListener("click", ()=>switchTab(3));
+
+  document.getElementById("speakBtn").addEventListener("click", () => {
+    markUsedToday();
+    renderToday();
+    saveHistory();
+    const prompt = buildChatGPTPrompt();
+    openChatGPTWithPrompt(prompt);
+    toast("ChatGPTを開きました");
+  });
+
+  document.getElementById("copyNotesBtn").addEventListener("click", async () => {
+    const text = document.getElementById("notesArea").value || "";
+    try{
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.getElementById("notesArea");
+        ta.focus();
+        ta.select();
+        document.execCommand("copy");
+        ta.setSelectionRange(0,0);
+      }
+      toast("コピーしました");
+    }catch(e){
+      try{
+        const ta = document.getElementById("notesArea");
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand("copy");
+        ta.setSelectionRange(0,0);
+        toast(ok ? "コピーしました" : "コピー失敗（権限/ブラウザ設定）");
+      }catch(_){
+        toast("コピー失敗（権限/ブラウザ設定）");
+      }
+    }
+  });
+
+  document.getElementById("clearNotesBtn").addEventListener("click", () => {
+    document.getElementById("notesArea").value = "";
+    toast("クリアしました");
+  });
+
+  document.getElementById("resetAllBtn").addEventListener("click", () => {
+    if (!confirm("全データを初期化します。よろしいですか？")) return;
+    const keys = [];
+    for (let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if (k && k.startsWith("speakup_")) keys.push(k);
+    }
+    keys.forEach(k => localStorage.removeItem(k));
+    initDaySelect();
+    renderToday();
+    renderHistory();
+    toast("初期化しました");
+  });
+});
+</script>
+</body>
+</html>
