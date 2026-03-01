@@ -6,86 +6,98 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="SpeakUp -MBA Entry-" />
-  <meta name="theme-color" content="#14110f" />
+  <meta name="theme-color" content="#0b0f1a" />
 
   <title>SpeakUp -MBA Entry-</title>
 
   <style>
     :root{
-      /* Warm, high-minded, but friendly */
-      --bg:#14110f;          /* espresso */
-      --bg2:#0f0d0c;         /* deeper */
-      --paper:rgba(26,21,18,.78);
-      --paper2:rgba(20,16,14,.70);
+      /* ===== Motif: Earth-at-dawn from space (warm lights + cool cosmos) ===== */
+      --bg:#070a12;
+      --bg2:#05070d;
 
-      --ink:#f6f1ea;         /* warm white */
-      --muted:rgba(246,241,234,.74);
-      --muted2:rgba(246,241,234,.56);
+      --paper:rgba(10,14,24,.72);
+      --paper2:rgba(8,10,18,.64);
+
+      --ink:#f7f3ea;
+      --muted:rgba(247,243,234,.74);
+      --muted2:rgba(247,243,234,.56);
 
       --line:rgba(255,255,255,.14);
       --line2:rgba(255,255,255,.10);
 
-      --accent:#d8b07a;      /* warm gold */
-      --accent2:#c08c4a;     /* amber */
-      --sage:#9bb89a;        /* calm green */
-      --rose:#c98f8f;        /* subtle rose */
+      /* Sunrise + city lights accents */
+      --sun:#ffffff;
+      --dawn:rgba(255,255,255,.22);
+      --gold:#ffcc74;
+      --amber:#ffb44e;
+      --blue:#6fb8ff;
 
-      --shadow:0 16px 50px rgba(0,0,0,.48);
-      --shadow2:0 10px 26px rgba(0,0,0,.34);
+      --shadow:0 16px 54px rgba(0,0,0,.55);
+      --shadow2:0 10px 28px rgba(0,0,0,.38);
       --radius:18px;
 
-      /* Font */
-      --font: "Times New Roman", Times, serif;
+      --font:"Times New Roman", Times, serif;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--font);
+      background:var(--bg);
+      color:var(--ink);
+      font-family:var(--font);
       overflow-x:hidden;
     }
 
-    /* Warm paper-like background with subtle texture */
+    /* =========
+       Background motif
+       =========
+       1) Put your Earth image in repo root as:  earth.jpg
+          (or rename to bg.jpg and update below)
+       2) This CSS uses it as a cinematic backdrop + readable overlays.
+    */
     body::before{
       content:"";
       position:fixed;
       inset:0;
-      pointer-events:none;
       z-index:0;
+      pointer-events:none;
 
       background-image:
-        /* soft vignette */
-        radial-gradient(circle at 50% 35%, rgba(216,176,122,.10), transparent 55%),
-        radial-gradient(circle at 15% 20%, rgba(155,184,154,.10), transparent 50%),
-        radial-gradient(circle at 85% 25%, rgba(201,143,143,.08), transparent 55%),
+        /* Readability layers */
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,.20), transparent 48%),
+        radial-gradient(circle at 30% 65%, rgba(255,204,116,.12), transparent 55%),
+        radial-gradient(circle at 85% 75%, rgba(111,184,255,.10), transparent 55%),
 
-        /* warm grain dots */
-        radial-gradient(circle at 18% 28%, rgba(246,241,234,.08) 0 1px, transparent 2px),
-        radial-gradient(circle at 26% 36%, rgba(246,241,234,.06) 0 1px, transparent 2px),
-        radial-gradient(circle at 74% 26%, rgba(246,241,234,.07) 0 1px, transparent 2px),
-        radial-gradient(circle at 82% 34%, rgba(246,241,234,.05) 0 1px, transparent 2px),
-        radial-gradient(circle at 64% 78%, rgba(246,241,234,.05) 0 1px, transparent 2px);
+        /* The motif image */
+        url("earth.jpg");
 
       background-repeat:no-repeat;
+      background-position:center;
       background-size:cover;
-      opacity:.95;
-      filter:saturate(1.05);
+
+      filter:saturate(1.05) contrast(1.02);
+      opacity:1;
+      transform: translateZ(0);
     }
 
-    /* subtle darkening for readability */
+    /* Cinematic vignette (keeps “photo” feel but makes text readable) */
     body::after{
       content:"";
       position:fixed;
       inset:0;
-      pointer-events:none;
       z-index:0;
-      background: rgba(0,0,0,.22);
-      box-shadow: inset 0 0 170px rgba(0,0,0,.55);
+      pointer-events:none;
+
+      background:
+        linear-gradient(180deg,
+          rgba(7,10,18,.55) 0%,
+          rgba(7,10,18,.40) 18%,
+          rgba(7,10,18,.55) 52%,
+          rgba(7,10,18,.82) 100%);
+      box-shadow: inset 0 0 220px rgba(0,0,0,.62);
     }
 
     .wrap{
@@ -96,22 +108,23 @@
       padding:22px 16px 92px;
     }
 
+    /* Title: warm, high-minded, not neon */
     .title{
       text-align:center;
-      margin:10px 0 10px;
-      font-weight:800;
-      letter-spacing:.4px;
+      margin:10px 0 8px;
+      font-weight:900;
+      letter-spacing:.55px;
       font-size:34px;
-      text-shadow: 0 12px 28px rgba(0,0,0,.42);
+      text-shadow: 0 18px 34px rgba(0,0,0,.60);
     }
-
     .subtitle{
       text-align:center;
       margin:0 0 16px;
       color:var(--muted);
       font-size:14px;
-      letter-spacing:.2px;
-      line-height:1.35;
+      letter-spacing:.15px;
+      line-height:1.45;
+      text-shadow: 0 12px 26px rgba(0,0,0,.55);
     }
 
     .topRow{
@@ -127,8 +140,8 @@
       display:inline-flex;
       gap:8px;
       align-items:center;
-      border:1px solid var(--line);
-      background:rgba(20,16,14,.55);
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(10,14,24,.52);
       padding:10px 12px;
       border-radius:999px;
       color:var(--muted);
@@ -136,39 +149,45 @@
       box-shadow: var(--shadow2);
       backdrop-filter: blur(10px);
     }
-    .pill strong{ color:var(--ink); font-weight:800; }
+    .pill strong{ color:var(--ink); font-weight:900; }
 
     .pill select{
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.22);
       color:var(--ink);
       border-radius:999px;
       padding:8px 10px;
       outline:none;
-      font-weight:800;
+      font-weight:900;
       appearance:none;
       -webkit-appearance:none;
       -moz-appearance:none;
       font-family: var(--font);
     }
 
+    /* Cards feel like “glass over photo” */
     .card{
-      background: linear-gradient(180deg, rgba(26,21,18,.78), rgba(20,16,14,.68));
-      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(10,14,24,.74), rgba(8,10,18,.62));
+      border:1px solid rgba(255,255,255,.14);
       border-radius:var(--radius);
       padding:14px;
       box-shadow: var(--shadow);
       margin:12px 0;
       position:relative;
       overflow:hidden;
+      backdrop-filter: blur(12px);
     }
+
+    /* Subtle sunrise glint inside cards */
     .card::before{
       content:"";
       position:absolute;
-      inset:-70px -40px auto -40px;
+      inset:-80px -40px auto -40px;
       height:190px;
       pointer-events:none;
-      background: radial-gradient(circle at 35% 55%, rgba(216,176,122,.14), transparent 62%);
+      background:
+        radial-gradient(circle at 50% 55%, rgba(255,255,255,.14), transparent 62%),
+        radial-gradient(circle at 35% 55%, rgba(255,204,116,.10), transparent 65%);
       opacity:.95;
     }
 
@@ -176,8 +195,8 @@
       position:relative;
       margin:0 0 10px;
       font-size:17px;
-      letter-spacing:.15px;
-      font-weight:800;
+      letter-spacing:.2px;
+      font-weight:900;
     }
 
     .small{
@@ -187,22 +206,26 @@
       line-height:1.55;
     }
 
-    /* Primary button: warm and confident */
+    /* Primary button: “sunrise sweep” */
     .btn{
       width:100%;
       padding:14px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.18);
-      background: linear-gradient(90deg, rgba(216,176,122,.34), rgba(155,184,154,.22));
-      color:#fff;
-      font-weight:800;
+      background:
+        linear-gradient(90deg,
+          rgba(255,255,255,.18),
+          rgba(255,204,116,.18),
+          rgba(111,184,255,.14));
+      color:#ffffff;
+      font-weight:900;
       font-size:17px;
       cursor:pointer;
-      box-shadow: 0 18px 40px rgba(0,0,0,.38);
+      box-shadow: 0 20px 44px rgba(0,0,0,.44);
       position:relative;
       overflow:hidden;
       transform: translateZ(0);
-      text-shadow: 0 10px 22px rgba(0,0,0,.38);
+      text-shadow: 0 12px 24px rgba(0,0,0,.48);
       font-family: var(--font);
     }
     .btn::after{
@@ -212,7 +235,7 @@
       left:-30%;
       width:40%;
       height:220%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.62), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
       transform: rotate(18deg);
       opacity:0;
       transition: opacity .25s ease;
@@ -232,19 +255,19 @@
     .btnSec{
       padding:10px 12px;
       border-radius:12px;
-      border:1px solid var(--line);
+      border:1px solid rgba(255,255,255,.16);
       background:rgba(255,255,255,.06);
       color:var(--ink);
       cursor:pointer;
       white-space:nowrap;
       box-shadow: var(--shadow2);
       font-family: var(--font);
-      font-weight:700;
+      font-weight:800;
     }
     .btnSec:hover{ background:rgba(255,255,255,.10); }
 
     .kwItem{
-      border:1px solid var(--line2);
+      border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.05);
       border-radius:14px;
       padding:12px;
@@ -252,7 +275,10 @@
       box-shadow: var(--shadow2);
       position:relative;
       overflow:hidden;
+      backdrop-filter: blur(10px);
     }
+
+    /* City-lights sparkle hint */
     .kwItem::before{
       content:"";
       position:absolute;
@@ -260,9 +286,10 @@
       pointer-events:none;
       opacity:.55;
       background-image:
-        radial-gradient(circle at 20% 20%, rgba(216,176,122,.18) 0 2px, transparent 3px),
-        radial-gradient(circle at 78% 30%, rgba(155,184,154,.16) 0 2px, transparent 3px),
-        radial-gradient(circle at 60% 86%, rgba(201,143,143,.12) 0 2px, transparent 3px);
+        radial-gradient(circle at 20% 20%, rgba(255,204,116,.22) 0 2px, transparent 3px),
+        radial-gradient(circle at 78% 30%, rgba(255,255,255,.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 64% 86%, rgba(111,184,255,.14) 0 2px, transparent 3px),
+        radial-gradient(circle at 35% 70%, rgba(255,180,78,.12) 0 2px, transparent 3px);
     }
 
     .kwTop{
@@ -274,7 +301,7 @@
       flex-wrap:wrap;
     }
     .kwTop .kw{
-      font-weight:800;
+      font-weight:900;
       font-size:15px;
       letter-spacing:.1px;
     }
@@ -283,12 +310,11 @@
       font-size:12px;
       font-weight:700;
     }
-
     .uses{
       position:relative;
       margin-top:8px;
       font-size:13px;
-      color:rgba(246,241,234,.86);
+      color:rgba(247,243,234,.86);
       line-height:1.55;
       white-space:pre-line;
     }
@@ -299,8 +325,8 @@
       resize:vertical;
       padding:12px;
       border-radius:12px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.20);
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.22);
       color:var(--ink);
       font-family: var(--mono);
       font-size:12px;
@@ -309,12 +335,13 @@
       box-shadow: var(--shadow2);
     }
 
+    /* Tabs */
     .tabs{
       position:fixed;
       left:0; right:0; bottom:0;
       padding:10px 10px calc(10px + env(safe-area-inset-bottom));
-      background:linear-gradient(180deg, rgba(20,16,14,.0), rgba(20,16,14,.92) 35%, rgba(20,16,14,.98));
-      backdrop-filter: blur(10px);
+      background:linear-gradient(180deg, rgba(7,10,18,.0), rgba(7,10,18,.88) 35%, rgba(7,10,18,.96));
+      backdrop-filter: blur(12px);
       z-index:2;
       border-top:1px solid rgba(255,255,255,.08);
     }
@@ -328,26 +355,28 @@
     .tabBtn{
       padding:12px 10px;
       border-radius:14px;
-      border:1px solid var(--line);
+      border:1px solid rgba(255,255,255,.14);
       background:rgba(255,255,255,.04);
-      color:rgba(246,241,234,.92);
-      font-weight:800;
+      color:rgba(247,243,234,.92);
+      font-weight:900;
       cursor:pointer;
       font-family: var(--font);
     }
     .tabBtn.active{
       background:rgba(255,255,255,.08);
       color:#fff;
+      box-shadow: 0 14px 28px rgba(0,0,0,.35);
     }
     .view{ display:none; }
     .view.active{ display:block; }
 
+    /* Toast */
     .toast{
       position:fixed;
       left:50%;
       bottom:86px;
       transform:translateX(-50%);
-      background:rgba(0,0,0,.75);
+      background:rgba(0,0,0,.78);
       border:1px solid rgba(255,255,255,.12);
       color:#fff;
       padding:10px 12px;
@@ -361,9 +390,10 @@
     }
     .toast.show{ opacity:1; }
 
-    /* Small helper: nicer quotes/typography */
-    .title, h2{
-      font-variant-ligatures: common-ligatures;
+    /* Small screens tweaks */
+    @media (max-width:420px){
+      .title{ font-size:30px; }
+      .subtitle{ font-size:13px; }
     }
   </style>
 </head>
@@ -371,18 +401,12 @@
 <body>
   <div class="wrap">
     <div class="title">SpeakUp -MBA Entry-</div>
-    <div class="subtitle">Pre-MBA speaking warm-up · 10 minutes a day · From vocabulary to confident participation</div>
+    <div class="subtitle">Earth-at-dawn motif · Warm & ambitious · 10 minutes a day to speak with confidence</div>
 
     <div class="topRow">
-      <div class="pill">
-        状態：<strong id="statusText">未利用</strong>
-      </div>
-      <div class="pill">
-        今日のDay：<strong id="topicLabel">Day 1</strong>
-      </div>
-      <div class="pill">
-        日付：<strong id="dateLabel">-</strong>
-      </div>
+      <div class="pill">状態：<strong id="statusText">未利用</strong></div>
+      <div class="pill">今日のDay：<strong id="topicLabel">Day 1</strong></div>
+      <div class="pill">日付：<strong id="dateLabel">-</strong></div>
       <div class="pill">
         Day変更：
         <select id="topicSelect" aria-label="Day selector"></select>
@@ -393,26 +417,26 @@
     <div id="viewToday" class="view active">
       <div class="card">
         <h2>Prompt（このままChatGPTに渡す）</h2>
-        <div class="small">ボタン1つであなたのChatGPTへ移動し、プロンプトが自動で入ります。送信後、英会話（or typing）スタート。</div>
+        <div class="small">ボタン1つでChatGPTへ移動し、プロンプトが自動で入ります。送信後、speaking / typing で練習開始。</div>
         <div id="promptArea" class="small" style="margin-top:10px; white-space:pre-line;"></div>
       </div>
 
       <div class="card">
         <h2>Seeds（今日のテーマの候補語）</h2>
-        <div class="small">タップでNotesに追記（後で復習用）。※ChatGPTはこのSeedを参考に3〜5語を作成</div>
+        <div class="small">タップでNotesに追記（復習用）。※ChatGPTはこのSeedを参考に3〜5語を作成</div>
         <div id="kwList"></div>
       </div>
 
       <div class="card">
         <h2>Let’s speak up!</h2>
-        <div class="small">押すと：今日の「語彙生成＋スピーキング練習」プロンプトをChatGPTに渡す（履歴も保存）</div>
+        <div class="small">押すと：今日の「語彙生成＋練習」プロンプトをChatGPTに渡す（履歴も保存）</div>
         <button class="btn" id="speakBtn">Let’s speak up!</button>
       </div>
 
       <div class="card">
         <h2>Notes保存用（いつでも復習）</h2>
         <div class="small">下は自由。生成結果を貼り付けて整理してOK。</div>
-        <textarea id="notesArea" placeholder="[今日の学び]&#10;- term = 意味（JP）&#10;  context: ...&#10;  examples: ...&#10;  cold-call: ...&#10;&#10;[Chat Memo]&#10;-"></textarea>
+        <textarea id="notesArea" placeholder="[今日の学び]&#10;- term = 意味（JP）&#10;  context: ...&#10;  examples: ...&#10;  professor/classmate Q: ...&#10;&#10;[Chat Memo]&#10;-"></textarea>
         <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
           <button class="btnSec" id="copyNotesBtn">コピー</button>
           <button class="btnSec" id="clearNotesBtn">クリア</button>
@@ -435,11 +459,15 @@
         <h2>Settings</h2>
         <div class="small">最低限。必要なら後で拡張。</div>
 
+        <h2 style="margin-top:14px;">背景画像</h2>
+        <div class="small">
+          このデザインは <strong>earth.jpg</strong> をモチーフ背景として使います。<br/>
+          GitHubリポジトリ直下に <strong>earth.jpg</strong> を置いてください（ファイル名を変えたらCSSのurlも変更）。
+        </div>
+
         <h2 style="margin-top:14px;">データ</h2>
         <button class="btnSec" id="resetAllBtn">全データ初期化（注意）</button>
-        <div class="small" style="margin-top:8px;">
-          ※Notes・履歴・利用状態を削除します
-        </div>
+        <div class="small" style="margin-top:8px;">※Notes・履歴・利用状態を削除します</div>
       </div>
     </div>
   </div>
